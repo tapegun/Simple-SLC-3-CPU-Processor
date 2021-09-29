@@ -1,4 +1,4 @@
-module 3to1Mux16 (
+module ThreetoOneMux16 (
                 input logic [15:0] A, B, C, //the three inputs
                 input logic [1:0] S,        //the select
                 output logic [15:0] OUT     //the output of mux
