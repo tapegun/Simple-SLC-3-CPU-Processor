@@ -9,13 +9,16 @@ module datapath(
 	input logic MEMIO,
 	input logic [15:0] MDR_In,
 	output logic BEN,
-	output logic [15:0] IR_OUT, PC_OUT, MAR_OUT, MDR_OUT,
+	output logic [15:0] IR_OUT,
+	// PC_OUT,
+	MAR_OUT, 
+	MDR_OUT,
 	output logic [11:0] LED
 	);
 
 	logic [15:0] bus;
 	
-	logic [15:0] PCMUXOUT;
+	logic [15:0] PCMUX;
 	logic [15:0] PCOUT;
 	logic [15:0] IROUT;
 
@@ -36,9 +39,19 @@ module datapath(
 		
 	logic [15:0] MDRMUXOUT;
 
-	register PC();
+	register PC(
+		.reset(reset),
+		.clk(clk),
+		.din(PCMUX),
+		.load(LD_PC),
+		.dout(PCOUT));
 
-	register IR();
+	register IR(
+		.reset(reset),
+		.clk(clk),
+		.din(bus),
+		.load(LD_IR),
+		.dout(IR_OUT));
 
 	REGFILE  regs();
 
