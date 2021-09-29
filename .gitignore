@@ -1,0 +1,12 @@
+db/
+incremental_db/
+output_files/
+simulation/
+
+*.sv.bak
+
+*.rpt
+
+*.smsg
+
+*.summary
