@@ -6,11 +6,12 @@ module datapath(
 	GateALU, GatePC, GateMARMUX, GateMDR,
 	ADDR1MUX, input logic [1:0] ADDR2MUX,
 	input logic[1:0] ALUK,
+	input logic [1:0] PCMUX,
 	// input logic MEMIO,
 	input logic [15:0] MDR_In,
 	output logic BEN,
 	output logic [15:0] IR,
-	// PC_OUT,
+	PC_OUT,
 	MAR, 
 	MDR,
 	// output logic [11:0] LED
@@ -58,7 +59,7 @@ module datapath(
 		.clk(clk),
 		.din(PCMUXOUT),
 		.load(LD_PC),
-		.dout(PCOUT));
+		.dout(PC_OUT));
 
 	register IR(
 		.reset(reset),
@@ -82,13 +83,13 @@ module datapath(
 		.dout(MAR));
 
 	REGFILE  regs(
-		.DRMUX(DRMUX),
-		.SR1MUX(), //the first input register
-		.SR2(), //the second input register
-		.BUSINPUT(), //takes in the bits from the bus data path
-		.LD_REG(), //1 if we want to load the registers, 0 otherwise
-		.clk(),
-		.SR1_OUT(), .SR2_OUT() // the outputs of source register 1 and 2
+		.DRMUX(DR_MUX),
+		.SR1MUX(SR1), //the first input register
+		.SR2(SR2), //the second input register
+		.BUSINPUT(databus), //takes in the bits from the bus data path
+		.LD_REG(LD_REG), //1 if we want to load the registers, 0 otherwise
+		.clk(clk),
+		.SR1_OUT(SR1_OUT), .SR2_OUT(SR2_OUT) // the outputs of source register 1 and 2
 		);
 
 	ALU  	 ALU();	
