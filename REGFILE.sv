@@ -15,31 +15,31 @@ logic ldreg0, ldreg1, ldreg2, ldreg3, ldreg4, ldreg5, ldreg6, ldreg7;
 //the destination register
 always_comb
 begin
-	ldreg0, ldreg1, ldreg2, ldreg3, ldreg4, ldreg5, ldreg6, ldreg7 = 0;
-	case (DRMUX):
+	ldreg0 = 0; ldreg1 = 0; ldreg2 = 0; ldreg3 = 0; ldreg4 = 0; ldreg5 = 0; ldreg6 = 0; ldreg7 = 0;
+	case (DRMUX)
 		3'h0:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg0 = 1'b1;
 		1'h1:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg1 = 1'b1;
 		3'h2:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg2 = 1'b1;
 		3'h3:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg3 = 1'b1;
 		3'h4:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg4 = 1'b1;
 		3'h5:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg5 = 1'b1;
 		3'h6:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg6 = 1'b1;
 		3'h7:
-			if (LD_REG):
+			if (LD_REG)
 				ldreg7 = 1'b1;
 	endcase
 end
@@ -72,18 +72,19 @@ always_comb begin
 	endcase
 end
 						
-register reg0 (.*, .din(BUSINPUT), .load(ldreg0), .dout(reg0data));
+register reg0 (.*, .reset(), .din(BUSINPUT), .load(ldreg0), .dout(reg0data));
 
-register reg1 (.*, .din(BUSINPUT), .load(ldreg1), .dout(reg1data));
+register reg1 (.*, .reset(), .din(BUSINPUT), .load(ldreg1), .dout(reg1data));
 
-register reg2 (.*, .din(BUSINPUT), .load(ldreg2), .dout(reg2data));
+register reg2 (.*, .reset(), .din(BUSINPUT), .load(ldreg2), .dout(reg2data));
 
-register reg3 (.*, .din(BUSINPUT), .load(ldreg3), .dout(reg3data));
+register reg3 (.*, .reset(), .din(BUSINPUT), .load(ldreg3), .dout(reg3data));
 
-register reg4 (.*, .din(BUSINPUT), .load(ldreg4), .dout(reg4data));
+register reg4 (.*, .reset(), .din(BUSINPUT), .load(ldreg4), .dout(reg4data));
 
-register reg5 (.*, .din(BUSINPUT), .load(ldreg5), .dout(reg5data));
+register reg5 (.*, .reset(), .din(BUSINPUT), .load(ldreg5), .dout(reg5data));
 
-register reg6 (.*, .din(BUSINPUT), .load(ldreg6), .dout(reg6data));
+register reg6 (.*, .reset(), .din(BUSINPUT), .load(ldreg6), .dout(reg6data));
 
-register reg7 (.*, .din(BUSINPUT), .load(ldreg7), .dout(reg7data));
+register reg7 (.*, .reset(), .din(BUSINPUT), .load(ldreg7), .dout(reg7data));
+endmodule

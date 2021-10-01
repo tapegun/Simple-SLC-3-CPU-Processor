@@ -49,7 +49,8 @@ module ISDU (   input logic         Clk,
 									ALUK,
 				  
 				output logic        Mem_OE,
-									Mem_WE
+									Mem_WE,
+				output logic 		DR
 				);
 
 	enum logic [3:0] {  Halted, 
@@ -73,6 +74,7 @@ module ISDU (   input logic         Clk,
 	always_comb
 	begin 
 		// Default next state is staying at current state
+		DR = 1'b0;											// HARDCODED FOR WEEK 1
 		Next_state = State;
 		
 		// Default controls signal values

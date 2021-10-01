@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "MAX 10"
 set_global_assignment -name DEVICE 10M50DAF484C7G
-set_global_assignment -name TOP_LEVEL_ENTITY lab5
+set_global_assignment -name TOP_LEVEL_ENTITY slc3_testtop
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "22:01:08  SEPTEMBER 28, 2021"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
@@ -49,6 +49,20 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (SystemVerilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name SYSTEMVERILOG_FILE TwotoOneMux16.sv
+set_global_assignment -name SYSTEMVERILOG_FILE TwotoOneMux3.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ThreetoOneMux16.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SixtoSixteenConc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE register.sv
+set_global_assignment -name SYSTEMVERILOG_FILE REGFILE.sv
+set_global_assignment -name SYSTEMVERILOG_FILE NinetoSixteenConc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE FourtoOneMux16.sv
+set_global_assignment -name SYSTEMVERILOG_FILE FourtoFourMux16.sv
+set_global_assignment -name SYSTEMVERILOG_FILE FivetoSixteenConc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE EleventoSixteenConc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE datapath.sv
 set_global_assignment -name SYSTEMVERILOG_FILE test_memory.sv
 set_global_assignment -name SYSTEMVERILOG_FILE synchronizers.sv
 set_global_assignment -name SYSTEMVERILOG_FILE slc3_testtop.sv
@@ -59,5 +73,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE memory_contents.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Mem2IO.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ISDU.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Instantiateram.sv
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

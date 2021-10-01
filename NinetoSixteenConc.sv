@@ -5,8 +5,9 @@ module NinetoSixteenConc (
 assign ones = 7'b1111111;
 assign zeros = 7'b0000000;
 always_comb begin
-    if (A[8]):
-        B = {ones,A};
-    else:
-        B = {zeros,B};
+    if (A[8])
+        assign B = {ones,A};
+    else
+        assign B = {zeros,B};
 end
+endmodule

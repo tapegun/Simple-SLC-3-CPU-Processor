@@ -4,8 +4,10 @@ module TwotoOneMux3 (
                 output logic [2:0]  OUT //the output
 );
 
-always_comb begin
-    OUT =  B;
-    if (S):
-        OUT = A;
-end
+	always_comb
+		begin
+			 assign OUT =  B;
+			 if (S)
+				  assign OUT = A;
+		end
+endmodule

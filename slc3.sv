@@ -47,6 +47,7 @@ logic BEN, MIO_EN, DRMUX, SR1MUX;
 logic [1:0] PCMUX, ADDR2MUX, ALUK;
 logic [15:0] MDR_In;
 logic [15:0] MAR, MDR, IR;
+logic DR;
 
 
 // Connect MAR to ADDR, which is also connected as an input into MEM2IO
@@ -55,7 +56,7 @@ logic [15:0] MAR, MDR, IR;
 assign ADDR = MAR; 
 assign MIO_EN = OE;
 // Connect everything to the data path (you have to figure out this part)
-datapath d0 (.*);
+datapath d0 (.*, .clk(Clk), .reset(Reset), .DR(DR));
 
 // Our SRAM and I/O controller (note, this plugs into MDR/MAR)
 
@@ -70,7 +71,7 @@ Mem2IO memory_subsystem(
 ISDU state_controller(
 	.*, .Reset(Reset), .Run(Run), .Continue(Continue),
 	.Opcode(IR[15:12]), .IR_5(IR[5]), .IR_11(IR[11]),
-   .Mem_OE(OE), .Mem_WE(WE)
+   .Mem_OE(OE), .Mem_WE(WE), .DR(DR)
 );
 
 // SRAM WE register
