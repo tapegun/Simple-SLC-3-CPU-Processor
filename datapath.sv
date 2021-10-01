@@ -84,7 +84,7 @@ module datapath(
 		.dout(MAR));
 
 	REGFILE  regs(
-		.DRMUX(DR_MUX),
+		.DRMUX(DRMUXOUT),
 		.SR1MUX(SR1MUXOUT), //the first input register
 		.SR2(IR[2:0]), //the second input register
 		.BUSINPUT(databus), //takes in the bits from the bus data path
