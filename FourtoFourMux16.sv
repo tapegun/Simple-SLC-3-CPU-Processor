@@ -6,10 +6,12 @@ module FourtoFourMux16 (
 
 always_comb begin
     case(S)
-        4'b0001: assign OUT = A;
-        4'b0010: assign OUT = B;
-        4'b0100: assign OUT = C;
-        4'b1000: assign OUT = D;
+        4'b0001:  OUT = A;
+        4'b0010:  OUT = B;
+        4'b0100:  OUT = C;
+        4'b1000:  OUT = D;
+
+        default: OUT = 16'hxxxx;
     endcase
 end
 endmodule

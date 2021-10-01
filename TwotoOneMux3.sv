@@ -6,8 +6,8 @@ module TwotoOneMux3 (
 
 	always_comb
 		begin
-			 assign OUT =  B;
+			 OUT =  B;
 			 if (S)
-				  assign OUT = A;
+				OUT = A;
 		end
 endmodule

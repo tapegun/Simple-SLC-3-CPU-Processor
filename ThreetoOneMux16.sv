@@ -6,10 +6,10 @@ module ThreetoOneMux16 (
 
 always_comb begin
     case(S)
-        2'b00: assign OUT = A;
-        2'b01: assign OUT = B;
-        2'b10: assign OUT = C;
-        default: assign OUT = 16'h0;
+        2'b00:  OUT = A;
+        2'b01:  OUT = B;
+        2'b10:  OUT = C;
+        default:  OUT = 16'h0;
     endcase
 end
 endmodule
