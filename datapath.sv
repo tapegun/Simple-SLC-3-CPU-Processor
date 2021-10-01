@@ -101,7 +101,7 @@ module datapath(
 	TwotoOneMux16	SR2_MUX(.A(SEXT5), .B(SR2_OUT), .S(IR[5]), .OUT(SR2MUXOUT));  //g	//figure out the select signal for this mux-comes from control
 	TwotoOneMux16	ADDR1_MUX(.A(SR1_OUT), .B(PCOUT), .S(ADDR1MUX), .OUT(ADDR1MUXOUT));  // // good
 	FourtoOneMux16  ADDR2_MUX(.A(16'b0), .B(SEXT6), .C(SEXT9), .D(SEXT11), .S(ADDR2MUX), .OUT(ADDR2MUXOUT)); // good
-	ThreetoOneMux16 PC_MUX(.A(PCOUT+1),.B(databus),.C(ADDR2MUXOUT + ADDR1MUXOUT),.S(PCMUX), .OUT(PCMUXOUT)); //good //figure out the select signal for this mux-comes from control
-	FourtoFourMux16 DATABUS_MUX(.A(ADDR2MUXOUT + ADDR1MUXOUT), .B(PCOUT), .C(ALUOUT), .D(MDR), .S({GateMARMUX,GatePC, GateALU, GateMDR}), .OUT(databus)); //signals probably wrong
+	ThreetoOneMux16 PC_MUX(.A(PCOUT+1'b1),.B(databus),.C(ADDR2MUXOUT + ADDR1MUXOUT),.S(PCMUX), .OUT(PCMUXOUT)); //good //figure out the select signal for this mux-comes from control
+	FourtoFourMux16 DATABUS_MUX(.A(ADDR2MUXOUT + ADDR1MUXOUT), .B(PCOUT), .C(ALUOUT), .D(MDR), .S({GateMDR, GateALU, GatePC, GateMARMUX}), .OUT(databus)); //signals probably wrong
 	TwotoOneMux16 	MDR_MUX(.A(MDR_In), .B(databus), .S(MIO_EN), .OUT(MDRMUXOUT)); // good
 endmodule
