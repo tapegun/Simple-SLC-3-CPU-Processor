@@ -8,6 +8,6 @@ always_comb begin
     if (A[8])
         assign B = {ones,A};
     else
-        assign B = {zeros,B};
+        assign B = {zeros,A};
 end
 endmodule

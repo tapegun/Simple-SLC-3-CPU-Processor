@@ -4,10 +4,11 @@ module FivetoSixteenConc (
 );
 assign ones = 11'b11111111111;
 assign zeros = 11'b00000000000;
-always_comb begin
+always_comb
+begin
     if (A[4])
-        assign B = {ones,A};
+        B = {ones, A};
     else
-        assign B = {zeros,B};
+        B = {zeros,A};
 end
 endmodule
