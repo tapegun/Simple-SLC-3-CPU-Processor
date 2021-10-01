@@ -28,7 +28,8 @@ module slc3(
 	output logic [15:0] Data_to_SRAM
 );
 
-
+logic Reset_ah;
+assign Reset_ah = Reset;
 // An array of 4-bit wires to connect the hex_drivers efficiently to wherever we want
 // For Lab 1, they will direclty be connected to the IR register through an always_comb circuit
 // For Lab 2, they will be patched into the MEM2IO module so that Memory-mapped IO can take place
@@ -49,6 +50,12 @@ logic [15:0] MDR_In;
 logic [15:0] MAR, MDR, IR;
 logic DR;
 
+//temporarily assigning hexes to IR register
+	assign hex_4[0][3:0] = IR[3:0];
+	assign hex_4[1][3:0] = IR[7:4];
+	assign hex_4[2][3:0] = IR[11:8];
+	assign hex_4[3][3:0] = IR[15:12];
+
 
 // Connect MAR to ADDR, which is also connected as an input into MEM2IO
 //	MEM2IO will determine what gets put onto Data_CPU (which serves as a potential
@@ -56,13 +63,14 @@ logic DR;
 assign ADDR = MAR; 
 assign MIO_EN = OE;
 // Connect everything to the data path (you have to figure out this part)
-datapath d0 (.*, .clk(Clk), .reset(Reset), .DR(DR));
+datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR));
 
 // Our SRAM and I/O controller (note, this plugs into MDR/MAR)
 
 Mem2IO memory_subsystem(
     .*, .Reset(Reset), .ADDR(ADDR), .Switches(SW),
-    .HEX0(hex_4[0][3:0]), .HEX1(hex_4[1][3:0]), .HEX2(hex_4[2][3:0]), .HEX3(hex_4[3][3:0]),
+     //.HEX0(hex_4[0][3:0]), .HEX1(hex_4[1][3:0]), .HEX2(hex_4[2][3:0]), .HEX3(hex_4[3][3:0]), //for now, hexes will be connected to IR. Should be connected here though after week1
+	.HEX0(), .HEX1(), .HEX2(), .HEX3(),
     .Data_from_CPU(MDR), .Data_to_CPU(MDR_In),
     .Data_from_SRAM(Data_from_SRAM), .Data_to_SRAM(Data_to_SRAM)
 );
@@ -74,15 +82,15 @@ ISDU state_controller(
    .Mem_OE(OE), .Mem_WE(WE), .DR(DR)
 );
 
-// SRAM WE register
-//logic SRAM_WE_In, SRAM_WE;
-//// SRAM WE synchronizer
-//always_ff @(posedge Clk or posedge Reset_ah)
-//begin
-//	if (Reset_ah) SRAM_WE <= 1'b1; //resets to 1
-//	else 
-//		SRAM_WE <= SRAM_WE_In;
-//end
+//SRAM WE register
+logic SRAM_WE_In, SRAM_WE;
+// SRAM WE synchronizer
+always_ff @(posedge Clk or posedge Reset_ah)
+begin
+	if (Reset_ah) SRAM_WE <= 1'b1; //resets to 1
+	else 
+		SRAM_WE <= SRAM_WE_In;
+end
 
 	
 endmodule

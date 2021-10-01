@@ -3,12 +3,18 @@ module register (input logic [15:0] din,
 	output logic [15:0] dout
 );
 
+	logic [15:0] data_n;
    always_ff @ (posedge clk)
 	begin
+		dout <= data_n;
+	end
+	
+	always_comb begin
+		data_n = dout;
 		if(reset)
-			dout <= 16'h00;
+			data_n = 0;
 		else if(load)
-			dout <= din;
+			data_n = din;
 	end
 
 endmodule 

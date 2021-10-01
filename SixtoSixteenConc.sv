@@ -11,5 +11,4 @@ assign zeros = 10'b0000000000;
 //    else
 //        B = {zeros,A};
 //end
-assign B = $signed(A);
-endmodule
+assign B = {{11{A[5]}}, A};endmodule

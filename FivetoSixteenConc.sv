@@ -11,5 +11,5 @@ module FivetoSixteenConc (
 //    else
 //        B = {zeros,A};
 //end
-assign B = $signed(A);
+assign B = {{12{A[4]}}, A};
 endmodule

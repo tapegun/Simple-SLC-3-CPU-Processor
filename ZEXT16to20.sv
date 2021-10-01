@@ -4,3 +4,5 @@ module ZEXT16to20 (
 );
 
 assign B = {4'b0000,A};
+
+endmodule

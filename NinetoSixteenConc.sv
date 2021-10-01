@@ -11,5 +11,4 @@ module NinetoSixteenConc (
 //        B = {zeros,A};
 //end
 
-assign B = $signed(A);
-endmodule
+assign B = {{8{A[8]}}, A};endmodule
