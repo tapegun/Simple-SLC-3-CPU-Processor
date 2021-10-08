@@ -274,8 +274,8 @@ module ISDU (   input logic         Clk,
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
 					SR1MUX = 1'b1;
-					GateALU = 1'b1;
 					LD_CC = 1'b1;
+					DRMUX = 1'b0;
 					// incomplete... yo mamas incomplete
 				end
 
@@ -298,6 +298,7 @@ module ISDU (   input logic         Clk,
 				GateALU = 1'b1;
 				LD_REG = 1'b1;
 				LD_CC = 1'b1;
+				SR2MUX = 1'b0;
 			end
 
 			S_06 :
@@ -306,17 +307,19 @@ module ISDU (   input logic         Clk,
 				ADDR1MUX = 1'b1; //double check, should be getting data from 
 				ADDR2MUX = 2'b01;
 				GateMARMUX = 1'b1;
-				LD_IR = 1'b1;
+				LD_MAR = 1'b1;
 			end
 
 			S_25_1:
 			begin
 				Mem_OE = 1'b1;
+				Mem_WE = 1'b0;
 			end
 
 			S_25_2:
 			begin
 				Mem_OE = 1'b1;
+				Mem_WE = 1'b0;
 			end
 			S_25_3:
 			begin
@@ -346,7 +349,6 @@ module ISDU (   input logic         Clk,
 				ALUK = 2'b11; //double check but this should pass A or SR1
 				GateALU = 1'b1;
 				SR1MUX = 1'b0;
-				Mem_OE = 1'b0;
 				LD_MDR = 1'b1;
 			end
 			S_16_1: //TRIPLE CHECK THIS STATE AND S_16_2
