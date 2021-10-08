@@ -6,7 +6,7 @@ module slc3_sramtop(
 	input logic [9:0] SW,
 	input logic	Clk, Run, Continue,
 	output logic [9:0] LED,
-	output logic [6:0] HEX0, HEX1, HEX2, HEX3
+	output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
 );
 
 // Input button synchronizer to cross clock domain
@@ -57,7 +57,8 @@ end
 
 //sync_r1 sram_sync[4:0] (Clk, Reset_ah, {CE_S, UB_S, LB_S, OE_S, WE_S}, {CE, UB, LB, OE, WE});
 
-slc3 slc(.Reset(Reset_ah), .Continue(Continue_ah), .Run(Run_ah), .WE(we_from_ISDU), .OE(OE), .Data_to_SRAM(Data_from_CPU), .ADDR(ADDR_from_CPU), .*);
+slc3 slc(.Reset(Reset_ah), .Continue(Continue_ah), .Run(Run_ah), .WE(we_from_ISDU), .OE(OE), .Data_to_SRAM(Data_from_CPU), .ADDR(ADDR_from_CPU), .*
+,.MARTESTOUT(), .PCTESTOUT(), .MDRTESTOUT());
 
 Instantiateram instaRam(.Clk(Clk), .Reset(Reset_ah),.ADDR(init_ADDR), .data(init_data), .wren(we_select));
 

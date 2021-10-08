@@ -50,7 +50,7 @@ module ISDU (   input logic         Clk,
 				  
 				output logic        Mem_OE,
 									Mem_WE,
-									MIO_EN,
+									//MIO_EN,
 				output logic 		DR
 				);
 
@@ -93,7 +93,7 @@ module ISDU (   input logic         Clk,
 	always_comb
 	begin 
 		// Default next state is staying at current state
-		DR = 1'b0;											// HARDCODED FOR WEEK 1
+		//DR = 1'b0;											// HARDCODED FOR WEEK 1
 		Next_state = State;
 		
 		// Default controls signal values
@@ -194,6 +194,8 @@ module ISDU (   input logic         Clk,
 				Next_state = S_25_2;
 
 			S_25_2:
+				Next_state = S_25_3;
+			S_25_3: 
 				Next_state = S_27;
 
 			S_27 :
@@ -231,10 +233,10 @@ module ISDU (   input logic         Clk,
 				Next_state = S_21;
 
 			S_21:
-				Next_state = 2_18;
+				Next_state = S_18;
 
 
-			default : ;
+			default : Next_state = State ;
 
 		endcase
 		
@@ -344,7 +346,7 @@ module ISDU (   input logic         Clk,
 				ALUK = 2'b11; //double check but this should pass A or SR1
 				GateALU = 1'b1;
 				SR1MUX = 1'b0;
-				MIO_EN = 1'b0;
+				Mem_OE = 1'b0;
 				LD_MDR = 1'b1;
 			end
 			S_16_1: //TRIPLE CHECK THIS STATE AND S_16_2

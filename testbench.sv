@@ -39,12 +39,37 @@ Continue = 1'b0;
 
 #22 Run = 1'b0;
 
-// #60 Continue = 1'b0;
+#60 Continue = 1'b0;
 
-// #22 Continue = 1'b1;
+#22 Continue = 1'b1;
 
-// #22 Continue = 1'b0;
+#22 Continue = 1'b0;
 
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
+#60 Continue = 1'b1;
+
+#22 Continue = 1'b0;
 #60 Continue = 1'b1;
 
 #22 Continue = 1'b0;

@@ -23,7 +23,7 @@ module slc3(
 	output logic [9:0] LED,
 	input logic [15:0] Data_from_SRAM,
 	output logic OE, WE,
-	output logic [6:0] HEX0, HEX1, HEX2, HEX3,
+	output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
 	output logic [15:0] ADDR,
 	output logic [15:0] Data_to_SRAM
 	//these are our outputs for week 1 testbench purposes
@@ -58,32 +58,35 @@ assign MARTESTOUT = MAR;
 assign MDRTESTOUT = MDR;
 
 //temporarily assigning hexes to IR register
-	assign hex_4[0][3:0] = IR[3:0];
-	assign hex_4[1][3:0] = IR[7:4];
-	assign hex_4[2][3:0] = IR[11:8];
-	assign hex_4[3][3:0] = IR[15:12];
+	// assign hex_4[0][3:0] = IR[3:0];
+	// assign hex_4[1][3:0] = IR[7:4];
+	// assign hex_4[2][3:0] = IR[11:8];
+	// assign hex_4[3][3:0] = IR[15:12];
 	// assign HEX0 = hex_4[0];
 	// assign HEX1 = hex_4[1];
 	// assign HEX2 = hex_4[2];
 	// assign HEX3 = hex_4[3];
-
+HexDriver hex_driver7 (PCTESTOUT[15:12], HEX7);
+HexDriver hex_driver6 (PCTESTOUT[11:8], HEX6);
+HexDriver hex_driver5 (PCTESTOUT[7:4], HEX5);
+HexDriver hex_driver4 (PCTESTOUT[3:0], HEX4);
 
 
 // Connect MAR to ADDR, which is also connected as an input into MEM2IO
 //	MEM2IO will determine what gets put onto Data_CPU (which serves as a potential
 //	input into MDR)
-assign ADDR = MAR; 
+assign ADDR = { 4'b00, MAR }; 
 assign MIO_EN = OE;
 // Connect everything to the data path (you have to figure out this part)
-datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR), .PCTESTOUT(PCTESTOUT)); //TESTBENCH
+datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DRMUX), .PCTESTOUT(PCTESTOUT)); //TESTBENCH
 //datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR)); //FPGA
 
 // Our SRAM and I/O controller (note, this plugs into MDR/MAR)
 
 Mem2IO memory_subsystem(
     .*, .Reset(Reset), .ADDR(ADDR), .Switches(SW),
-     //.HEX0(hex_4[0][3:0]), .HEX1(hex_4[1][3:0]), .HEX2(hex_4[2][3:0]), .HEX3(hex_4[3][3:0]), //for now, hexes will be connected to IR. Should be connected here though after week1
-	.HEX0(), .HEX1(), .HEX2(), .HEX3(),
+     .HEX0(hex_4[0][3:0]), .HEX1(hex_4[1][3:0]), .HEX2(hex_4[2][3:0]), .HEX3(hex_4[3][3:0]), //for now, hexes will be connected to IR. Should be connected here though after week1
+	//.HEX0(), .HEX1(), .HEX2(), .HEX3(),
     .Data_from_CPU(MDR), .Data_to_CPU(MDR_In),
     .Data_from_SRAM(Data_from_SRAM), .Data_to_SRAM(Data_to_SRAM)
 );
@@ -92,7 +95,7 @@ Mem2IO memory_subsystem(
 ISDU state_controller(
 	.*, .Reset(Reset), .Run(Run), .Continue(Continue),
 	.Opcode(IR[15:12]), .IR_5(IR[5]), .IR_11(IR[11]),
-   .Mem_OE(OE), .Mem_WE(WE), .DRMUX(DR)
+   .Mem_OE(OE), .Mem_WE(WE), .DRMUX(DRMUX)
 );
 
 
