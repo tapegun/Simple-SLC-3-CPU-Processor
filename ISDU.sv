@@ -53,7 +53,7 @@ module ISDU (   input logic         Clk,
 				output logic 		DR
 				);
 
-	enum logic [3:0] {  Halted, 
+	enum logic [4:0] {  Halted, 
 						PauseIR1, 
 						PauseIR2, 
 						S_18, 
@@ -61,7 +61,23 @@ module ISDU (   input logic         Clk,
 						S_33_2, 
 						S_35, 
 						S_32, 
-						S_01}   State, Next_state;   // Internal state logic
+						S_01,
+						S_05,
+						S_09,
+						S_00,
+						S_12,
+						S_04,
+						S_06,
+						S_07,
+						S_25_1,
+						S_25_2,
+						S_27,
+						S_23,
+						S_16_1,
+						S_16_2,
+						S_22,
+						S_21
+						}   State, Next_state;   // Internal state logic
 		
 	always_ff @ (posedge Clk)
 	begin
@@ -180,7 +196,7 @@ module ISDU (   input logic         Clk,
 			S_27 :
 				Next_state = S_18;
 
-			S_7 :
+			S_07 :
 				Next_state = S_23;
 
 			S_23 :
@@ -239,7 +255,8 @@ module ISDU (   input logic         Clk,
 					GateMDR = 1'b1;
 					LD_IR = 1'b1;
 				end
-			PauseIR1: ;
+			PauseIR1: 
+				LD_LED = 1'b1;
 			PauseIR2: ;
 			S_32 : 
 				LD_BEN = 1'b1;
@@ -268,7 +285,7 @@ module ISDU (   input logic         Clk,
 			end
 			S_09 :
 			begin
-				ALUK = 1'b0;
+				ALUK = 2'b10;
 				SR1MUX = 1'b1;
 				DRMUX = 1'b0;
 				GateALU = 1'b1;
@@ -278,9 +295,9 @@ module ISDU (   input logic         Clk,
 
 			S_06 :
 			begin
-				SR1_MUX = 1'b1;
-				ADDR1_MUX = 1'b1; //double check, should be getting data from 
-				ADDR2_MUX = 2'b01;
+				SR1MUX = 1'b1;
+				ADDR1MUX = 1'b1; //double check, should be getting data from 
+				ADDR2MUX = 2'b01;
 				GateMARMUX = 1'b1;
 				LD_IR = 1'b1;
 			end
@@ -291,6 +308,10 @@ module ISDU (   input logic         Clk,
 			end
 
 			S_25_2:
+			begin
+				Mem_OE = 1'b1;
+			end
+			S_25_3:
 			begin
 				Mem_OE = 1'b1;
 				LD_MDR = 1'b1;
@@ -306,29 +327,36 @@ module ISDU (   input logic         Clk,
 
 			S_07 :
 			begin
-				SR1_MUX = 1'b1;
-				ADDR1_MUX = 1'b1; //double check, should be getting data from 
-				ADDR2_MUX = 2'b01;
+				SR1MUX = 1'b1;
+				ADDR1MUX = 1'b1; //double check, should be getting data from 
+				ADDR2MUX = 2'b01;
 				GateMARMUX = 1'b1;
-				LD_IR = 1'b1;
+				LD_MAR = 1'b1;
 			end
 
 			S_23 :
 			begin
 				ALUK = 2'b11; //double check but this should pass A or SR1
 				GateALU = 1'b1;
-				SR1_MUX = 1'b1;
+				SR1MUX = 1'b0;
 				MIO_EN = 1'b0;
 				LD_MDR = 1'b1;
 			end
 			S_16_1: //TRIPLE CHECK THIS STATE AND S_16_2
 			begin
-				Mem_OE = 1'b1;
+				Mem_WE = 1'b1;
+				Mem_OE = 1'b0;
 			end
 
 			S_16_2:
 			begin
-				Mem_OE = 1'b1;
+				Mem_WE = 1'b1;
+				Mem_OE = 1'b0;
+			end
+			S_16_3:
+			begin
+				Mem_WE = 1'b1;
+				Mem_OE = 1'b0;
 			end
 
 			S_00 :
@@ -340,8 +368,8 @@ module ISDU (   input logic         Clk,
 			begin
 				PCMUX = 2'b10;
 				LD_PC = 1'b1;
-				ADDR1_MUX = 1'b0;
-				ADDR2_MUX = 2'b10;
+				ADDR1MUX = 1'b0;
+				ADDR2MUX = 2'b10;
 
 			end
 			S_12 :
