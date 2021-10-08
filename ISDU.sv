@@ -71,10 +71,12 @@ module ISDU (   input logic         Clk,
 						S_07,
 						S_25_1,
 						S_25_2,
+						S_25,3,
 						S_27,
 						S_23,
 						S_16_1,
 						S_16_2,
+						S_16_3,
 						S_22,
 						S_21
 						}   State, Next_state;   // Internal state logic
@@ -370,6 +372,7 @@ module ISDU (   input logic         Clk,
 				LD_PC = 1'b1;
 				ADDR1MUX = 1'b0;
 				ADDR2MUX = 2'b10;
+				GatePC = 1'b1;
 
 			end
 			S_12 :
@@ -394,6 +397,7 @@ module ISDU (   input logic         Clk,
 				ADDR2MUX = 2'b11;
 				ADDR1MUX = 1'b0;
 				LD_PC = 1'b1;
+				GatePC = 1'b1;
 			end
 
 			default : ;
