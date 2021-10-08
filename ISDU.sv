@@ -209,6 +209,8 @@ module ISDU (   input logic         Clk,
 
 			S_16_2:
 				Next_state = S_18;
+			S_16_3:
+				Next_state = S_18;
 
 			S_00 :
 			begin
