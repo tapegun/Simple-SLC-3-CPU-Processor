@@ -98,7 +98,9 @@ ISDU state_controller(
    .Mem_OE(OE), .Mem_WE(WE), .DRMUX(DRMUX)
 );
 
-
+tristate #(.N(16)) tr0(
+    .Clk(Clk), .tristate_output_enable(WE), .Data_write(Data_to_SRAM), .Data_read(Data_from_SRAM), .Data(Data)
+);
 
 //SRAM WE register
 logic SRAM_WE_In, SRAM_WE;
