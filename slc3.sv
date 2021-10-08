@@ -95,6 +95,8 @@ ISDU state_controller(
    .Mem_OE(OE), .Mem_WE(WE), .DR(DR)
 );
 
+
+
 //SRAM WE register
 logic SRAM_WE_In, SRAM_WE;
 // SRAM WE synchronizer

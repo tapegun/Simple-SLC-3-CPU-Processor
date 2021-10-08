@@ -50,6 +50,7 @@ module ISDU (   input logic         Clk,
 				  
 				output logic        Mem_OE,
 									Mem_WE,
+									MIO_EN,
 				output logic 		DR
 				);
 
