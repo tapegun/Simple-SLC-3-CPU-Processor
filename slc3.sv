@@ -92,7 +92,7 @@ Mem2IO memory_subsystem(
 ISDU state_controller(
 	.*, .Reset(Reset), .Run(Run), .Continue(Continue),
 	.Opcode(IR[15:12]), .IR_5(IR[5]), .IR_11(IR[11]),
-   .Mem_OE(OE), .Mem_WE(WE), .DR(DR)
+   .Mem_OE(OE), .Mem_WE(WE), .DRMUX(DR)
 );
 
 
