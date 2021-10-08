@@ -118,9 +118,10 @@ module ISDU (   input logic         Clk,
 			S_33_2 : 
 				Next_state = S_35;
 			S_35 : 
-				Next_state = PauseIR1;
+				//Next_state = PauseIR1;
 			// PauseIR1 and PauseIR2 are only for Week 1 such that TAs can see 
 			// the values in IR.
+				Next_state = S_32;
 			PauseIR1 : 
 				if (~Continue) 
 					Next_state = PauseIR1;
@@ -135,6 +136,22 @@ module ISDU (   input logic         Clk,
 				case (Opcode)
 					4'b0001 : 
 						Next_state = S_01;
+					4'b0101 :
+						Next_state = S_05;
+					4'b1001 :
+						Next_state = S_09;
+					4'b0000 :
+						Next_state = S_00;
+					4'b1100 :
+						Next_state = S_12;
+					4'b0100:
+						Next_state = S_04;
+					4'b0110:
+						Next_state = S_06;
+					4'b0111:
+						Next_state = S_07;
+					4'b1101:
+						Next_state = PauseIR1;
 
 					// You need to finish the rest of opcodes.....
 
@@ -145,6 +162,56 @@ module ISDU (   input logic         Clk,
 				Next_state = S_18;
 
 			// You need to finish the rest of states.....
+			S_05 :
+				Next_state = S_18;
+
+			S_09 :
+				Next_state = S_18;
+
+			S_06 :
+				Next_state = S_25_1;
+
+			S_25_1:
+				Next_state = S_25_2;
+
+			S_25_2:
+				Next_state = S_27;
+
+			S_27 :
+				Next_state = S_18;
+
+			S_7 :
+				Next_state = S_23;
+
+			S_23 :
+				Next_state = S_16_1;
+
+			S_16_1:
+				Next_state = S_16_2;
+
+			S_16_2:
+				Next_state = S_18;
+
+			S_00 :
+			begin
+				if(BEN)
+					Next_state = S_22;
+				else
+					Next_state = S_18;
+			end
+
+			S_22 :
+				Next_state = S_18;
+
+			S_12 :
+				Next_state = S_18;
+
+			S_04 :
+				Next_state = S_21;
+
+			S_21:
+				Next_state = 2_18;
+
 
 			default : ;
 
@@ -182,10 +249,124 @@ module ISDU (   input logic         Clk,
 					ALUK = 2'b00;
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
-					// incomplete...
+					SR1MUX = 1'b1;
+					GateALU = 1'b1;
+					LD_CC = 1'b1;
+					// incomplete... yo mamas incomplete
 				end
 
 			// You need to finish the rest of states.....
+			S_05 :
+			begin
+				SR2MUX = IR_5; //double check but this should select the SEXT [4:0]
+				ALUK = 2'b01;
+				SR1MUX = 1'b1;
+				DRMUX = 1'b0;
+				GateALU = 1'b1;
+				LD_REG = 1'b1;
+				LD_CC = 1'b1;
+			end
+			S_09 :
+			begin
+				ALUK = 1'b0;
+				SR1MUX = 1'b1;
+				DRMUX = 1'b0;
+				GateALU = 1'b1;
+				LD_REG = 1'b1;
+				LD_CC = 1'b1;
+			end
+
+			S_06 :
+			begin
+				SR1_MUX = 1'b1;
+				ADDR1_MUX = 1'b1; //double check, should be getting data from 
+				ADDR2_MUX = 2'b01;
+				GateMARMUX = 1'b1;
+				LD_IR = 1'b1;
+			end
+
+			S_25_1:
+			begin
+				Mem_OE = 1'b1;
+			end
+
+			S_25_2:
+			begin
+				Mem_OE = 1'b1;
+				LD_MDR = 1'b1;
+			end
+
+			S_27 :
+			begin
+				DRMUX = 1'b0;
+				LD_REG = 1'b1;
+				GateMDR = 1'b1;
+				LD_CC = 1'b1;
+			end
+
+			S_07 :
+			begin
+				SR1_MUX = 1'b1;
+				ADDR1_MUX = 1'b1; //double check, should be getting data from 
+				ADDR2_MUX = 2'b01;
+				GateMARMUX = 1'b1;
+				LD_IR = 1'b1;
+			end
+
+			S_23 :
+			begin
+				ALUK = 2'b11; //double check but this should pass A or SR1
+				GateALU = 1'b1;
+				SR1_MUX = 1'b1;
+				MIO_EN = 1'b0;
+				LD_MDR = 1'b1;
+			end
+			S_16_1: //TRIPLE CHECK THIS STATE AND S_16_2
+			begin
+				Mem_OE = 1'b1;
+			end
+
+			S_16_2:
+			begin
+				Mem_OE = 1'b1;
+			end
+
+			S_00 :
+			begin
+				//this state should do nothing
+			end
+
+			S_22 :
+			begin
+				PCMUX = 2'b10;
+				LD_PC = 1'b1;
+				ADDR1_MUX = 1'b0;
+				ADDR2_MUX = 2'b10;
+
+			end
+			S_12 :
+			begin
+				LD_PC = 1'b1;
+				PCMUX = 2'b01;
+				SR1MUX = 1'b1;
+				ALUK = 2'b11;
+				GateALU = 1'b1;
+			end
+
+			S_04 :
+			begin
+				DRMUX = 1'b1;
+				LD_REG = 1'b1;
+				GatePC = 1'b1;
+			end
+
+			S_21:
+			begin
+				PCMUX = 2'b10;
+				ADDR2MUX = 2'b11;
+				ADDR1MUX = 1'b0;
+				LD_PC = 1'b1;
+			end
 
 			default : ;
 		endcase

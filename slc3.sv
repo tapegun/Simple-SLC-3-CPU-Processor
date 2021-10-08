@@ -26,7 +26,10 @@ module slc3(
 	output logic [6:0] HEX0, HEX1, HEX2, HEX3,
 	output logic [15:0] ADDR,
 	output logic [15:0] Data_to_SRAM
+	//these are our outputs for week 1 testbench purposes
+	,output logic [15:0] MARTESTOUT, PCTESTOUT, MDRTESTOUT
 );
+
 
 logic Reset_ah;
 assign Reset_ah = Reset;
@@ -50,11 +53,20 @@ logic [15:0] MDR_In;
 logic [15:0] MAR, MDR, IR;
 logic DR;
 
+//for week 1 testbench purposes
+assign MARTESTOUT = MAR;
+assign MDRTESTOUT = MDR;
+
 //temporarily assigning hexes to IR register
 	assign hex_4[0][3:0] = IR[3:0];
 	assign hex_4[1][3:0] = IR[7:4];
 	assign hex_4[2][3:0] = IR[11:8];
 	assign hex_4[3][3:0] = IR[15:12];
+	// assign HEX0 = hex_4[0];
+	// assign HEX1 = hex_4[1];
+	// assign HEX2 = hex_4[2];
+	// assign HEX3 = hex_4[3];
+
 
 
 // Connect MAR to ADDR, which is also connected as an input into MEM2IO
@@ -63,7 +75,8 @@ logic DR;
 assign ADDR = MAR; 
 assign MIO_EN = OE;
 // Connect everything to the data path (you have to figure out this part)
-datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR));
+datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR), .PCTESTOUT(PCTESTOUT)); //TESTBENCH
+//datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DR)); //FPGA
 
 // Our SRAM and I/O controller (note, this plugs into MDR/MAR)
 

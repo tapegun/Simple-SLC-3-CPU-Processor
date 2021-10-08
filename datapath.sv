@@ -15,13 +15,19 @@ module datapath(
 	MAR, 
 	MDR
 	// output logic [11:0] LED
+	//for week 1 test bench purposes
+	,output logic [15:0] PCTESTOUT
 	);
+	
 
 	logic [15:0] databus;
 	
 	logic [15:0] PCMUXOUT;
 	logic [15:0] PCOUT;
 	logic [15:0] IROUT;
+
+	//for week 1 test bench purposes
+	assign PCTESTOUT = PCOUT;
 
 	//sign extensions of IR
 	logic [15:0] SEXT11;
@@ -48,6 +54,9 @@ module datapath(
 	
 	logic [2:0] DRMUXOUT;
 	// logic [15:0] IR, MAR, MDR
+
+	//logic variables for nzp and ben
+	logic [2:0] NZPOUT;
 
 	//this sign extends the IR signal of the necessary various inputs
 	FivetoSixteenConc conc1 (.A(IR[4:0]), .B(SEXT5));
@@ -93,13 +102,14 @@ module datapath(
 		.SR1_OUT(SR1_OUT), .SR2_OUT(SR2_OUT) // the outputs of source register 1 and 2
 		);
 
-	// ALU  	ALU(); //TODO	
-	// BEN 		BEN();
+	ALU  	ALU_Unit(.A(SR1_OUT), .B(SR2MUXOUT), .ALUK(ALUK), .OUT(ALUOUT)); //TODO	
+	NZP		NZP_Unit(.clk(clk), .reset(reset), .LD_CC(LD_CC), .DR_VALUE(databus), .OUT(NZPOUT));
+	BEN 	BEN_Unit(.clk(clk), .reset(reset), .LD_BEN(LD_BEN), .NZP(NZPOUT), .IR11_10_9(IR[11:9]), .OUT(BEN));
 
 	TwotoOneMux3 	DR_MUX( .A(3'b111), .B(IR[11:9]), .S(DR), .OUT(DRMUXOUT)); // g
 	TwotoOneMux3 	SR1_MUX( .A(IR[11:9]), .B(IR[8:6]), .S(SR1MUX), .OUT(SR1MUXOUT)); // g
-	TwotoOneMux16	SR2_MUX(.A(SEXT5), .B(SR2_OUT), .S(IR[5]), .OUT(SR2MUXOUT));  //g	//figure out the select signal for this mux-comes from control
-	TwotoOneMux16	ADDR1_MUX(.A(SR1_OUT), .B(PCOUT), .S(ADDR1MUX), .OUT(ADDR1MUXOUT));  // // good
+	TwotoOneMux16	SR2_MUX(.A(SR2_OUT), .B(SEXT5), .S(IR[5]), .OUT(SR2MUXOUT));  //g	//figure out the select signal for this mux-comes from control
+	TwotoOneMux16	ADDR1_MUX(.A(PCOUT), .B(SR1_OUT), .S(ADDR1MUX), .OUT(ADDR1MUXOUT));  // // good
 	FourtoOneMux16  ADDR2_MUX(.A(16'b0), .B(SEXT6), .C(SEXT9), .D(SEXT11), .S(ADDR2MUX), .OUT(ADDR2MUXOUT)); // good
 	ThreetoOneMux16 PC_MUX(.A(PCOUT+1'b1),.B(databus),.C(ADDR2MUXOUT + ADDR1MUXOUT),.S(PCMUX), .OUT(PCMUXOUT)); //good //figure out the select signal for this mux-comes from control
 	FourtoFourMux16 DATABUS_MUX(.A(ADDR2MUXOUT + ADDR1MUXOUT), .B(PCOUT), .C(ALUOUT), .D(MDR), .S({GateMDR, GateALU, GatePC, GateMARMUX}), .OUT(databus)); //signals probably wrong

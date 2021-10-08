@@ -9,6 +9,9 @@ module slc3_testtop(
 	//,output logic  CE, UB, LB, OE, WE
 	//,output logic [19:0] ADDR
 	//,inout wire [15:0] Data 
+
+	//these are our outputs for week 1 testbench purposes
+	,output logic [15:0] MARTESTOUT, PCTESTOUT, MDRTESTOUT
 );
 //our inputs and outputs
 //assign ADDR = 16'hFFFF;
