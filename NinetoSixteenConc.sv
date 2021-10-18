@@ -11,4 +11,4 @@ module NinetoSixteenConc (
 //        B = {zeros,A};
 //end
 
-assign B = {{8{A[8]}}, A};endmodule
+assign B = {{7{A[8]}}, A};endmodule

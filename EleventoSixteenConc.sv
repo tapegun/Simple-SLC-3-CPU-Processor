@@ -10,5 +10,5 @@ module EleventoSixteenConc (
 //    else
 //        B = {zeros,A};
 //end
-assign B = {{6{A[10]}}, A};
+assign B = {{5{A[10]}}, A};
 endmodule

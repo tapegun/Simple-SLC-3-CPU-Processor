@@ -8,7 +8,7 @@ module BEN (
 
 logic ben;  //placed into BEN_OUT if LD_BEN is high
 
-assign ben = IR11_10_9[2] & NZP[2] + IR11_10_9[1] & NZP[1] + IR11_10_9[0] & NZP[0];
+assign ben = (IR11_10_9[2] & NZP[2]) + (IR11_10_9[1] & NZP[1]) + (IR11_10_9[0] & NZP[0]);
 //BEN <- IR[11] & N + IR[10] & Z + IR[9] & P
 
 threebitregister ben_register (.clk(clk), .din(ben), .load(LD_BEN), .reset(reset), .dout(OUT));

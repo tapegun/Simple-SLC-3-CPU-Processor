@@ -6,8 +6,8 @@ module TwotoOneMux16 (
 
 	always_comb
 	begin
-		 OUT = B;
+		 OUT = A;
 		 if (S)
-			  OUT = A;
+			  OUT = B;
 	end
 endmodule

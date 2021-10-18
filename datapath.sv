@@ -94,6 +94,7 @@ module datapath(
 
 	REGFILE  regs(
 		.DRMUX(DRMUXOUT),
+		.reset(reset),
 		.SR1MUX(SR1MUXOUT), //the first input register
 		.SR2(IR[2:0]), //the second input register
 		.BUSINPUT(databus), //takes in the bits from the bus data path
@@ -107,11 +108,11 @@ module datapath(
 	BEN 	BEN_Unit(.clk(clk), .reset(reset), .LD_BEN(LD_BEN), .NZP(NZPOUT), .IR11_10_9(IR[11:9]), .OUT(BEN));
 
 	TwotoOneMux3 	DR_MUX( .A(3'b111), .B(IR[11:9]), .S(DR), .OUT(DRMUXOUT)); // g
-	TwotoOneMux3 	SR1_MUX( .A(IR[11:9]), .B(IR[8:6]), .S(SR1MUX), .OUT(SR1MUXOUT)); // g
+	TwotoOneMux3 	SR1_MUX( .A(IR[8:6]), .B(IR[11:9]), .S(SR1MUX), .OUT(SR1MUXOUT)); // g
 	TwotoOneMux16	SR2_MUX(.A(SR2_OUT), .B(SEXT5), .S(IR[5]), .OUT(SR2MUXOUT));  //g	//figure out the select signal for this mux-comes from control
 	TwotoOneMux16	ADDR1_MUX(.A(PCOUT), .B(SR1_OUT), .S(ADDR1MUX), .OUT(ADDR1MUXOUT));  // // good
 	FourtoOneMux16  ADDR2_MUX(.A(16'b0), .B(SEXT6), .C(SEXT9), .D(SEXT11), .S(ADDR2MUX), .OUT(ADDR2MUXOUT)); // good
 	ThreetoOneMux16 PC_MUX(.A(PCOUT+1'b1),.B(databus),.C(ADDR2MUXOUT + ADDR1MUXOUT),.S(PCMUX), .OUT(PCMUXOUT)); //good //figure out the select signal for this mux-comes from control
 	FourtoFourMux16 DATABUS_MUX(.A(ADDR2MUXOUT + ADDR1MUXOUT), .B(PCOUT), .C(ALUOUT), .D(MDR), .S({GateMDR, GateALU, GatePC, GateMARMUX}), .OUT(databus)); //signals probably wrong
-	TwotoOneMux16 	MDR_MUX(.A(MDR_In), .B(databus), .S(MIO_EN), .OUT(MDRMUXOUT)); // good
+	TwotoOneMux16 	MDR_MUX(.A(databus), .B(MDR_In), .S(MIO_EN), .OUT(MDRMUXOUT)); // good
 endmodule

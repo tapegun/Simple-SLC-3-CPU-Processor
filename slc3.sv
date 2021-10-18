@@ -57,6 +57,8 @@ logic DR;
 assign MARTESTOUT = MAR;
 assign MDRTESTOUT = MDR;
 
+assign LED = IR[9:0];
+
 //temporarily assigning hexes to IR register
 	// assign hex_4[0][3:0] = IR[3:0];
 	// assign hex_4[1][3:0] = IR[7:4];
@@ -75,7 +77,7 @@ HexDriver hex_driver4 (PCTESTOUT[3:0], HEX4);
 // Connect MAR to ADDR, which is also connected as an input into MEM2IO
 //	MEM2IO will determine what gets put onto Data_CPU (which serves as a potential
 //	input into MDR)
-assign ADDR = { 4'b00, MAR }; 
+assign ADDR = MAR; 
 assign MIO_EN = OE;
 // Connect everything to the data path (you have to figure out this part)
 datapath d0 (.*, .clk(Clk), .reset(Reset_ah), .DR(DRMUX), .PCTESTOUT(PCTESTOUT)); //TESTBENCH
@@ -98,19 +100,19 @@ ISDU state_controller(
    .Mem_OE(OE), .Mem_WE(WE), .DRMUX(DRMUX)
 );
 
-tristate #(.N(16)) tr0(
-    .Clk(Clk), .tristate_output_enable(WE), .Data_write(Data_to_SRAM), .Data_read(Data_from_SRAM), .Data(Data)
-);
+// tristate #(.N(16)) tr0(
+//     .Clk(Clk), .tristate_output_enable(WE), .Data_write(Data_to_SRAM), .Data_read(Data_from_SRAM), .Data(Data)
+// );
 
-//SRAM WE register
-logic SRAM_WE_In, SRAM_WE;
-// SRAM WE synchronizer
-always_ff @(posedge Clk or posedge Reset_ah)
-begin
-	if (Reset_ah) SRAM_WE <= 1'b1; //resets to 1
-	else 
-		SRAM_WE <= SRAM_WE_In;
-end
+// //SRAM WE register
+// logic SRAM_WE_In, SRAM_WE;
+// // SRAM WE synchronizer
+// always_ff @(posedge Clk or posedge Reset_ah)
+// begin
+// 	if (Reset_ah) SRAM_WE <= 1'b1; //resets to 1
+// 	else 
+// 		SRAM_WE <= SRAM_WE_In;
+// end
 
 	
-endmodule
+ endmodule

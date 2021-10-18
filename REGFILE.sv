@@ -4,7 +4,7 @@ module REGFILE (
 											SR2, //the second input register
 						input logic [15:0]	BUSINPUT, //takes in the bits from the bus data path
 						input logic 		LD_REG, //1 if we want to load the registers, 0 otherwise
-						input logic 		clk,
+						input logic 		clk, reset,
 						output logic [16:0] SR1_OUT, SR2_OUT // the outputs of source register 1 and 2
 						);
 
@@ -72,19 +72,19 @@ always_comb begin
 	endcase
 end
 						
-register reg0 (.*, .reset(), .din(BUSINPUT), .load(ldreg0), .dout(reg0data));
+register reg0 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg0), .dout(reg0data));
 
-register reg1 (.*, .reset(), .din(BUSINPUT), .load(ldreg1), .dout(reg1data));
+register reg1 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg1), .dout(reg1data));
 
-register reg2 (.*, .reset(), .din(BUSINPUT), .load(ldreg2), .dout(reg2data));
+register reg2 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg2), .dout(reg2data));
 
-register reg3 (.*, .reset(), .din(BUSINPUT), .load(ldreg3), .dout(reg3data));
+register reg3 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg3), .dout(reg3data));
 
-register reg4 (.*, .reset(), .din(BUSINPUT), .load(ldreg4), .dout(reg4data));
+register reg4 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg4), .dout(reg4data));
 
-register reg5 (.*, .reset(), .din(BUSINPUT), .load(ldreg5), .dout(reg5data));
+register reg5 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg5), .dout(reg5data));
 
-register reg6 (.*, .reset(), .din(BUSINPUT), .load(ldreg6), .dout(reg6data));
+register reg6 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg6), .dout(reg6data));
 
-register reg7 (.*, .reset(), .din(BUSINPUT), .load(ldreg7), .dout(reg7data));
+register reg7 (.*, .reset(reset), .din(BUSINPUT), .load(ldreg7), .dout(reg7data));
 endmodule
